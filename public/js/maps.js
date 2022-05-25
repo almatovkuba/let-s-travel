@@ -1,0 +1,23 @@
+var platform = new H.service.Platform({
+    'apikey': '{ulGRLVMIAxJOzq4bWTJWrg}'
+  });
+
+  // Obtain the default map types from the platform object:
+var defaultLayers = platform.createDefaultLayers();
+var service = platform.getSearchService();
+
+let landmark = document.querySelector('.main-heading').textContent;
+service.geocode({
+    q: landmark
+}, (result) => {
+    var map = new H.Map(
+        document.querySelector('.map'),
+        defaultLayers.vector.normal.map,
+        {
+          zoom: 15,
+          center: result.item[0].position
+        });
+    map.addObject(new H.map.Marker(result.item[0].position));
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
+}, alert);
+// Instantiate (and display) a map object:
